@@ -49,6 +49,8 @@ Add path in logstash.yml <br/>
 ```
 path.config: /etc/logstash/conf.d
 ```
+![yml](https://user-images.githubusercontent.com/53372486/143729883-3b961c11-ad86-4fc5-91ff-4a0972f573d6.png)<br/>
+
 Change Dir<br/>
 ```
 cd /etc/logstash/conf.d
@@ -85,7 +87,7 @@ cd /usr/share/logstash/
 ```
 Run logstash<br/>
 ```
-sudo bin/logstash --path.settings /etc/logstash --path.data sensor39 -f /home/rabindra/etc logstash/conf.d
+sudo bin/logstash --path.settings /etc/logstash --path.data sensor39 -f /home/rabindra/etc/logstash/conf.d
 ```
 ![run](https://user-images.githubusercontent.com/53372486/143729285-08f7e75d-a1f2-41a5-a0d3-e1624bfb9c97.png)<br/>
 
