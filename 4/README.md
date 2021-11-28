@@ -35,5 +35,71 @@ sudo systemctl status logstash
 ```
 ![status](https://user-images.githubusercontent.com/53372486/143686276-34bd585b-2191-4fa7-902b-dd0aad9a4f6c.png)<br/>
 
+Download nginx log<br/>
+```
+wget https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs
+```
+![wgetlog](https://user-images.githubusercontent.com/53372486/143729344-96fe6faa-9489-4e62-95ba-2ca10ee63865.png)<br/>
+
+Change Dir<br/>
+```
+cd /etc/logstash
+```
+Add path in logstash.yml <br/>
+```
+path.config: /etc/logstash/conf.d
+```
+Change Dir<br/>
+```
+cd /etc/logstash/conf.d
+```
+Add below code inside logstach.conf<br/>
+```
+input {
+  file {
+    type => "nginx-log"
+    path => "/home/rabindra/nginx_log/nginx_logs.log"
+    sincedb_path => "/dev/null"
+   start_position => "beginning"}
+}
+filter {
+grok{
+match=>{
+"message"=>"%{IP:clientip} \- \- \["
+}
+}
+geoip {
+source => "clientip"
+}
+}
+output {
+  file {
+   path => "/var/log/logstash/geonginx.log"    }
+}
+```
+![conf](https://user-images.githubusercontent.com/53372486/143729282-602a6d14-1d1d-4b72-ac7f-86b9e04579d9.png)<br/>
+
+Change Dir<br/>
+```
+cd /usr/share/logstash/
+```
+Run logstash<br/>
+```
+sudo bin/logstash --path.settings /etc/logstash --path.data sensor39 -f /home/rabindra/etc logstash/conf.d
+```
+![run](https://user-images.githubusercontent.com/53372486/143729285-08f7e75d-a1f2-41a5-a0d3-e1624bfb9c97.png)<br/>
+
+Change Dir<br/>
+```
+cd /var/log/logstash
+```
+![ls](https://user-images.githubusercontent.com/53372486/143729283-d5509abb-008a-440b-b3ce-e2a6fac1c1c9.png)<br/>
+
+Check file<br/>
+```
+cat geonginx.log 
+```
+![output](https://user-images.githubusercontent.com/53372486/143729287-3b0435a9-1fbb-436d-8ab3-a1b4c1454db6.png)
+
 
 
